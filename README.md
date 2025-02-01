@@ -20,8 +20,8 @@ This project aims to promote eco-friendly shopping by providing a marketplace fo
 ## Installation & Setup
 ### Clone the Repository
 ```bash
-git clone https://github.com/YOUR-USERNAME/ASP.NET-Core-E-Commerce-Platform-ReFashion.git  
-cd ASP.NET-Core-E-Commerce-Platform-ReFashion  
+git clone https://github.com/Slabaser/ReFashion.git  
+cd ReFashion
 ```
 
 ### Restore Required Packages
