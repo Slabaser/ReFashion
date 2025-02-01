@@ -1,0 +1,380 @@
+.container {
+    flex: 1; /* İçerik alanı ekranın geri kalanını doldurur */
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Navbar Genel */
+.navbar {
+    font-family: 'Arial', sans-serif;
+    background-color: #f7f5f0; /* Açık renk arka plan */
+    color: #000000; /* Siyah yazı */
+    border-bottom: 1px solid #ddd; /* Alt kenarlık */
+    padding: 0.3rem 1rem; /* Yükseklik biraz azaltıldı */
+    margin-top: 30px; /* Siyah şeridin altına yerleşmesi için */
+    box-sizing: border-box; /* Tam genişlik için */
+}
+
+/* Üst Kısım */
+.navbar-top {
+    background-color: #000000; /* Siyah renk */
+    color: #ffffff; /* Yazı rengi beyaz */
+    font-size: 14px; /* Yazı boyutu */
+    display: flex; /* Flexbox kullanımı */
+    justify-content: center; /* Yatayda ortala */
+    align-items: center; /* Dikeyde ortala */
+    height: 30px; /* Şeridin yüksekliği */
+    margin: 0; /* Kenar boşlukları kaldır */
+    padding: 0; /* İç boşlukları kaldır */
+    width: 100%; /* Tam genişlik */
+    position: fixed; /* En üstte sabitlemek için */
+    top: 0; /* Sayfanın en üstüne yerleştir */
+    left: 0;
+    z-index: 1000; /* Diğer elemanların üstüne çıkar */
+    box-sizing: border-box; /* Tam genişlik */
+}
+
+    .navbar-top a {
+        color: #ffffff; /* Link yazı rengi */
+        text-decoration: underline; /* Alt çizgili link */
+        margin-left: 5px; /* Link ile metin arasına boşluk ekle */
+    }
+
+.navbar-info p, .navbar-info a {
+    color: #ffffff;
+    text-align: center;
+}
+
+    .navbar-info a:hover {
+        color: #6A7326;
+    }
+/* Ana Navbar */
+.navbar-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 0; /* Yükseklik biraz azaltıldı */
+}
+
+.logo a {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #000000; /* Siyah */
+    text-decoration: none;
+}
+
+.menu a {
+    margin: 0 1rem;
+    color: #000000; /* Siyah */
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+    .menu a:hover {
+        color: #6A7326; /* Yeşil */
+    }
+
+.navbar-icons {
+    display: flex;
+    align-items: center;
+}
+
+    .navbar-icons input[type="text"] {
+        padding: 0.5rem;
+        margin-right: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        width: 200px;
+    }
+
+    .navbar-icons a {
+        color: #000000; /* Siyah */
+        font-size: 1.2rem;
+        margin: 0 0.5rem;
+        text-decoration: none;
+    }
+
+        .navbar-icons a:hover {
+            color: #6A7326; /* Yeşil */
+        }
+
+/* Responsive (Opsiyonel) */
+@media (max-width: 768px) {
+    .menu {
+        display: none;
+    }
+
+    .navbar-main {
+        flex-wrap: wrap;
+    }
+
+    .navbar-icons {
+        margin-top: 1rem;
+    }
+}
+
+/* Font Ayarı */
+@font-face {
+    font-family: 'Didot';
+    src: url('../fonts/Didot.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: 'Didot', serif; /* Genel font ayarı */
+}
+
+
+/* Başlıklar */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+}
+
+/* Diğer metinler */
+p, a, li, span, input, button {
+    font-family: 'Playfair Display', serif;
+}
+
+/* Search bar tasarımı */
+
+body {
+    background-color: #FFFFFF; /* Arka planı beyaz yapar */
+    color: #000000; /* Yazılar için koyu kahve tonu */
+    font-family: 'Didot', serif; /* Yazı fontu Didot */
+    margin: 0;
+    padding: 0;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    border-radius: 0px;
+    border-color: #000000;
+    max-width: 300px;
+    background-color: #FFFFFF; /* Search bar arka planı beyaz */
+}
+
+    .search-bar input {
+        border-color: #FFFFFF;
+        padding: 10px;
+        font-size: 14px;
+        flex: 1;
+        outline: none;
+        background-color: #FFFFFF; /* Input arka planı beyaz */
+    }
+
+    .search-bar button {
+        background-color: transparent;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .search-bar button i {
+            font-size: 16px;
+            color: #000000; /* Koyu kahve tonu */
+            transition: color 0.3s ease;
+        }
+
+        .search-bar button:hover i {
+            color: #6A7326; /* Hover'da yeşil */
+        }
+
+.navbar-icons input[type="text"] {
+    padding: 0.5rem;
+    margin-right: 1rem;
+    border: 1px solid #FFFFFF;
+    border-radius: 23px;
+    width: 227px;
+}
+
+/* Sade Footer */
+.footer {
+    background-color: #000000; /* Siyah arka plan */
+    color: #FFFFFF; /* Beyaz yazı */
+    text-align: center;
+    padding: 10px 0;
+    position: relative;
+    width: 100%;
+    bottom: 0;
+    font-family: 'Didot', serif;
+}
+
+    .footer p {
+        margin: 0;
+        font-size: 0.9rem;
+    }
+
+
+
+/* Popup Modal */
+.popup {
+    display: none; /* Başlangıçta gizli */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5); /* Saydam siyah arka plan */
+}
+
+.popup-content {
+    background-color: #FFFFFF; /* Beyaz içerik kutusu */
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 50%;
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+}
+
+    .popup-content h2 {
+        color: #6A7326; /* Başlık için yeşil */
+    }
+
+    .popup-content p {
+        color: #000000; /* Siyah yazı */
+        font-size: 0.9rem;
+        line-height: 1.6;
+    }
+
+.close-popup {
+    color: #000000;
+    float: right;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: -10px;
+    margin-right: -10px;
+    padding: 5px 10px;
+}
+
+/* Genel Ayarlar */
+.auth-container {
+    display: flex;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    background-color: #F7F5EF;
+    color: #000;
+}
+
+/* Dropdown Menü */
+.dropdown {
+    position: relative;
+    display: inline-block;
+    z-index: 1000; /* Menülerin diğer öğelerden üstte kalmasını sağla */
+}
+
+.dropbtn {
+    background-color: transparent;
+    border: none;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #000000;
+    cursor: pointer;
+    padding: 10px 15px;
+    transition: color 0.3s ease;
+}
+
+    .dropbtn:hover {
+        color: #6A7326; /* Hover durumunda yazı rengi yeşil */
+    }
+
+/* Menü öğelerinin ana container'ı */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #FFFFFF; /* Beyaz arka plan */
+    min-width: 200px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1); /* Hafif gölge */
+    z-index: 1001; /* Üstte kalması için z-index arttırıldı */
+    border: 1px solid #ddd;
+    padding: 10px 0;
+    border-radius: 5px; /* Menüyü yuvarlatmak için */
+}
+
+/* Menüye tıklandığında ve menüye hover yapıldığında açık olmalı */
+.dropdown:hover .dropdown-content {
+    display: block; /* Menü açıldığında */
+}
+
+/* Menü öğeleri */
+.dropdown-content a, .dropdown-content strong {
+    color: #000000; /* Siyah yazı */
+    padding: 10px 15px;
+    text-decoration: none;
+    display: block;
+    font-size: 0.9rem;
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+    /* Hover durumunda sadece yazı rengi değişecek */
+    .dropdown-content a:hover {
+        color: #6A7326; /* Hover durumunda yazı rengi yeşil */
+        background-color: transparent; /* Arka plan şeffaf */
+    }
+
+/* Menü başlıkları (strong element) */
+.dropdown-content strong {
+    padding: 10px 15px;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1rem;
+    border-bottom: 1px solid #ddd;
+    margin: 5px 0;
+}
+
+    /* Hover başlık */
+.dropdown-content strong {
+    padding: 10px 15px;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1rem;
+    border-bottom: 1px solid #ddd;
+    margin: 5px 0;
+    font-family: 'Didot', serif; /* Didot yazı tipi */
+}
+
+.dropdownuser {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdownuser-content {
+    display: none; /* Menü başlangıçta gizlenir */
+    position: absolute;
+    right: 0; /* Sağ tarafa hizalanır */
+    background-color: white;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1000; /* Menü üstte görünür */
+    border-radius: 4px;
+    padding: 10px;
+    min-width: 150px;
+}
+
+    .dropdownuser-content a {
+        color: black;
+        padding: 8px 12px;
+        text-decoration: none;
+        display: block;
+        font-size: 1rem;
+    }
+
+        
+
+.dropdownuser:hover .dropdownuser-content {
+    display: block; /* Hover sırasında menü görünür */
+}
+

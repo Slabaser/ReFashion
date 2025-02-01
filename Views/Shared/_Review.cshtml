@@ -1,0 +1,7 @@
+﻿@model ECommerceApp.Models.Review
+
+<li>
+    <p><strong>@Model.UserFullName</strong> - @Model.DateAdded.ToShortDateString()</p>
+    <p>Rating: @Model.Rating/5</p>
+    <p>@Model.Comment</p>
+</li>

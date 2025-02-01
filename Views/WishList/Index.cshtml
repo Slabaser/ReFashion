@@ -1,0 +1,82 @@
+﻿@model ECommerceApp.Models.Wishlist
+<link rel="stylesheet" href="~/css/wishlist.css" />
+<div class="wishlist-container">
+    <h1>Your Wishlist</h1>
+
+    <p class="wishlist-summary">Total Favorites: @ViewBag.TotalFavorites</p>
+
+    @if (Model?.Items?.Any() == true)
+    {
+        <ul>
+            @foreach (var item in Model.Items)
+            {
+                <li>
+                    <img src="@item.ImageUrl" alt="@item.ProductName" />
+                    <h3>@item.ProductName</h3>
+                    <p>Price: ₺@item.ProductPrice.ToString("N2")</p>
+                    <div class="icon-container">
+                        <!-- Çöp simgesi (silme işlemi) -->
+                        <i class="fas fa-trash remove-icon" data-product-id="@item.ProductId" title="Remove from wishlist"></i>
+
+                        <!-- Sepet simgesi (şimdilik işlevsiz) -->
+                        <a href="/Products/Detail?id=@item.ProductId" class="cart-link">
+                            <i class="fas fa-shopping-cart cart-icon" title="Add to cart"></i>
+                        </a>
+                    </div>
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>Your wishlist is empty.</p>
+    }
+</div>
+
+<script>document.querySelectorAll('.remove-icon').forEach(icon => {
+        icon.addEventListener('click', () => {
+            const productId = icon.getAttribute('data-product-id');
+
+            if (!productId) {
+                alert("Product ID is missing.");
+                return;
+            }
+
+            // ProductId'yi kontrol et
+            console.log("Removing Product ID:", productId);
+
+            fetch('/Wishlist/RemoveFromWishlist', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ productId }) // Doğru format
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        console.log("Response:", data);
+                        alert(data.message || "Product removed from wishlist.");
+                        location.reload();
+                    } else {
+                        console.error("Response Error:", data.message);
+                        alert(data.message || "Failed to remove product from wishlist.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("An error occurred while removing the product.");
+                });
+        });
+    });
+
+
+
+  
+
+    </script>

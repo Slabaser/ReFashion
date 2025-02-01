@@ -1,0 +1,162 @@
+﻿/* Genel Ayarlar */
+body {
+    font-family: 'Didot', serif; /* Yazı tipi */
+    background-color: #f7f5ef; /* Hafif krem arka plan */
+    color: #333; /* Yazı rengi */
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2 {
+    font-family: 'Didot', serif;
+    color: #000;
+}
+
+.checkout-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff; /* Beyaz arka plan */
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Hafif gölge */
+    border: 1px solid #ddd;
+}
+
+/* Bölüm Başlıkları */
+.checkout-section h2 {
+    font-size: 1.8rem;
+    color: #6a7326; /* Yeşil başlık */
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+/* Form Grupları */
+.form-group {
+    margin-bottom: 20px;
+}
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 1rem;
+        color: #333;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="tel"],
+    .form-group textarea {
+        width: 100%;
+        padding: 10px;
+        font-size: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+        background-color: #f9f9f9; /* Hafif gri arka plan */
+    }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #6a7326; /* Yeşil kenarlık */
+            box-shadow: 0 0 5px rgba(106, 115, 38, 0.5); /* Yeşil odak gölgesi */
+        }
+
+textarea {
+    resize: none; /* Kullanıcının boyutlandırmasını engeller */
+    height: 100px;
+}
+
+/* Shipping Options */
+.checkout-section input[type="radio"] {
+    margin-right: 10px;
+}
+
+.checkout-section label {
+    font-size: 1rem;
+    color: #333;
+    cursor: pointer;
+}
+
+    .checkout-section label:hover {
+        color: #6a7326; /* Yeşil vurgu */
+    }
+
+/* Sipariş Özeti */
+.summary-details {
+    background-color: #f9f9f9; /* Hafif gri arka plan */
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+
+    .summary-details p {
+        font-size: 1rem;
+        margin: 5px 0;
+        color: #333;
+    }
+
+    .summary-details strong {
+        font-weight: bold;
+        color: #6a7326; /* Yeşil vurgu */
+    }
+
+/* Düğmeler */
+.checkout-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.btn-submit {
+    padding: 10px 20px;
+    background-color: #6a7326; /* Yeşil arka plan */
+    color: #fff; /* Beyaz yazı */
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+    .btn-submit:hover {
+        background-color: #55631c; /* Daha koyu yeşil */
+        transform: scale(1.05); /* Hafif büyütme */
+    }
+
+.btn-cancel {
+    padding: 10px 20px;
+    background-color: #fff; /* Beyaz arka plan */
+    color: #6a7326; /* Yeşil yazı */
+    border: 1px solid #6a7326; /* Yeşil kenarlık */
+    border-radius: 5px;
+    font-size: 1rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+    .btn-cancel:hover {
+        background-color: #f9f9f9; /* Hafif gri arka plan */
+        transform: scale(1.05); /* Hafif büyütme */
+    }
+
+/* Mobil Uyumluluk */
+@media (max-width: 768px) {
+    .checkout-container {
+        padding: 15px;
+    }
+
+    .checkout-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn-submit, .btn-cancel {
+        width: 100%;
+        text-align: center;
+    }
+}

@@ -1,0 +1,61 @@
+﻿@model List<ECommerceApp.Models.Review>
+
+    <link rel="stylesheet" href="/css/reviews.css">
+<div class="reviews-container">
+    <h2>Reviews</h2>
+    <ul id="reviews-list">
+        @foreach (var review in Model)
+        {
+            <li>
+                <p><strong>@review.UserFullName</strong> - @review.DateAdded.ToShortDateString()</p>
+                <p>Rating: @review.Rating/5</p>
+                <p>@review.Comment</p>
+            </li>
+        }
+    </ul>
+
+    <h3>Add a Review</h3>
+    <form id="review-form">
+        <input type="hidden" id="ProductId" name="ProductId" value="@ViewContext.RouteData.Values["id"]" />
+        <div>
+            <label for="Rating">Rating (1-5):</label>
+            <input type="number" id="Rating" name="Rating" min="1" max="5" required />
+        </div>
+        <div>
+            <label for="Comment">Your Review:</label>
+            <textarea id="Comment" name="Comment" required></textarea>
+        </div>
+        <button type="submit">Submit Review</button>
+    </form>
+</div>
+
+<script>document.getElementById("review-form").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const form = e.target;
+        const formData = new FormData(form);
+
+        fetch('/Review/AddReview', {
+            method: 'POST',
+            body: new URLSearchParams(formData),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.text(); // Partial view döneceğiz
+                } else {
+                    throw new Error("Failed to submit review");
+                }
+            })
+            .then(html => {
+                const reviewsList = document.getElementById("reviews-list");
+                reviewsList.insertAdjacentHTML("beforeend", html); // Yeni yorumu listeye ekle
+                form.reset(); // Formu sıfırla
+            })
+            .catch(error => {
+                console.error("Error submitting review:", error);
+                alert("An error occurred while submitting your review.");
+            });
+    });</script>

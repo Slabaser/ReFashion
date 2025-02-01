@@ -1,0 +1,75 @@
+﻿/* Genel Stil */
+body {
+    background-color: #f4f4f4;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Navbar */
+.navbar {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Sayfa Başlıkları */
+h2 {
+    color: #333;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+/* Kartlar */
+.card {
+    border-radius: 10px;
+    transition: transform 0.2s ease-in-out;
+}
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+/* Butonlar */
+.btn-primary, .btn-success, .btn-danger {
+    border-radius: 8px;
+    padding: 10px 15px;
+    font-weight: bold;
+}
+
+.btn:hover {
+    opacity: 0.85;
+}
+
+/* Tablo */
+.table {
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+    .table th {
+        background: #343a40;
+        color: white;
+        padding: 12px;
+    }
+
+    .table td {
+        padding: 10px;
+        vertical-align: middle;
+    }
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+}
+
+/* Modal */
+.modal-content {
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Footer */
+.footer {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    background: #343a40;
+}

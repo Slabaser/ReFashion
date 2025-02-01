@@ -1,0 +1,239 @@
+﻿@model ECommerceApp.Models.ProductDetail
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@Model.Name</title>
+    <link rel="stylesheet" href="/css/ProductDetail.css">
+</head>
+<body>
+    <div class="product-detail-container">
+        <div class="product-detail-image">
+            <img src="@Model.ImageUrl" alt="@Model.Name" />
+        </div>
+        <div class="product-detail-info">
+            <h1>@Model.Name</h1>
+            <p> @Model.Category/@Model.Subcategory</p>
+            <p>@Model.Description</p>
+
+            <p class="price">₺@Model.Price.ToString("N2")</p>
+            <p><strong>Available Sizes:</strong></p>
+            <div class="sizes" id="sizes-container">
+                <!-- Beden seçenekleri JavaScript ile yüklenecek -->
+            </div>
+            <div class="product-detail-buttons">
+                <button id="addToCart"
+                        class="add-to-cart"
+                        data-product-id="@Model.Id"
+                        data-product-name="@Model.Name"
+                        data-product-price="@Model.Price"
+                        data-product-image="@Model.ImageUrl">
+                    Add to Cart
+                </button>
+                <button id="addToWishlist"
+                        class="wishlist-button"
+                        data-product-id="@Model.Id"
+                        data-product-name="@Model.Name"
+                        data-product-price="@Model.Price">
+                    Add to Wishlist
+                </button>
+            </div>
+        </div>
+
+
+
+        <script>document.getElementById("review-form").addEventListener("submit", function (e) {
+                e.preventDefault();
+                const form = e.target;
+                const formData = new FormData(form);
+                fetch('/Review/AddReview', {
+                    method: 'POST',
+                    body: new URLSearchParams(formData),
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            alert("Review added successfully!");
+                            location.reload();
+                        } else {
+                            alert("Failed to add review.");
+                        }
+                    })
+                    .catch(error => console.error("Error:", error));
+            });</script>
+
+
+        <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const category = "@Model.Category";
+            const subcategory = "@Model.Subcategory";
+            const sizesContainer = document.getElementById("sizes-container");
+
+            let sizes = [];
+
+            // Beden seçeneklerini belirle
+            if (category === "Kids") {
+                if (subcategory.includes("1-6 Years")) {
+                    sizes = ["1", "2", "3", "4", "5", "6"];
+                } else if (subcategory.includes("6-14 Years")) {
+                    sizes = ["6-7", "8-9", "10-11", "12-14"];
+                } else if (subcategory.includes("+14 Years")) {
+                    sizes = ["XS", "S", "M", "L"];
+                } else if (subcategory.includes("Babies")) {
+                    sizes = ["0-6 Months", "6-12 Months"];
+                }
+            } else if (subcategory === "Shoes") {
+                // Eğer subcategory "Shoes" ise
+                sizes = ["36", "37", "38", "39", "40", "41", "42", "43"];
+            } else {
+                // Diğer kategoriler için standart bedenler
+                sizes = ["S", "M", "L", "XL"];
+            }
+
+            // Beden seçeneklerini DOM'a ekle
+            if (sizes.length > 0) {
+                sizes.forEach((size) => {
+                    const sizeButton = document.createElement("button");
+                    sizeButton.textContent = size;
+                    sizeButton.classList.add("size-option");
+                    sizeButton.dataset.size = size;
+                    sizeButton.addEventListener("click", function () {
+                        // Seçilen bedenin stilini değiştir
+                        document.querySelectorAll(".size-option").forEach((btn) => {
+                            btn.classList.remove("selected");
+                        });
+                        sizeButton.classList.add("selected");
+                    });
+                    sizesContainer.appendChild(sizeButton);
+                });
+            } else {
+                sizesContainer.innerHTML = "<p>No size selection available for this product.</p>";
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const imageContainer = document.querySelector(".product-detail-image");
+            const image = imageContainer.querySelector("img");
+
+            imageContainer.addEventListener("mousemove", (e) => {
+                const rect = imageContainer.getBoundingClientRect();
+                const x = e.clientX - rect.left; // İmlecin x pozisyonu
+                const y = e.clientY - rect.top;  // İmlecin y pozisyonu
+
+                const xPercent = (x / rect.width) * 100; // x yüzdesi
+                const yPercent = (y / rect.height) * 100; // y yüzdesi
+
+                image.style.transformOrigin = `${xPercent}% ${yPercent}%`; // Büyütme noktası
+                image.style.transform = "scale(2)"; // 2 kat büyütme
+            });
+
+            imageContainer.addEventListener("mouseleave", () => {
+                image.style.transform = "scale(1)"; // Normal boyuta dön
+                image.style.transformOrigin = "center center"; // Varsayılan odak
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const addToWishlistButton = document.getElementById('addToWishlist');
+            const productId = addToWishlistButton.getAttribute('data-product-id');
+
+            // Ürünün wishlist'te olup olmadığını kontrol et
+            fetch(`/Wishlist/IsProductInWishlist?productId=${productId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success && data.inWishlist) {
+                        // Ürün wishlist'te, butonu pasif yap
+                        addToWishlistButton.textContent = "Already in Wishlist";
+                        addToWishlistButton.disabled = true;
+                        addToWishlistButton.classList.add("disabled-button");
+                    } else {
+                        // Ürün wishlist'te değil, tıklama işlemi için event listener ekle
+                        addToWishlistButton.addEventListener('click', function () {
+                            // Ürün bilgilerini al
+                            const productName = this.getAttribute('data-product-name');
+                            const productPrice = this.getAttribute('data-product-price');
+
+                            // Eksik bilgi kontrolü
+                            if (!productId || !productName || !productPrice) {
+                                alert('Product information is missing.');
+                                return;
+                            }
+
+                            // Backend'e fetch isteği gönder
+                            fetch('/Wishlist/AddToWishlist', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    productId,
+                                    productName,
+                                    productPrice: parseFloat(productPrice) // String fiyatı sayıya çevir
+                                })
+                            })
+                                .then(response => {
+                                    if (response.ok) {
+                                        alert('Product added to wishlist!');
+                                        // Başarılı olursa, butonu pasif yap
+                                        addToWishlistButton.textContent = "Already in Wishlist";
+                                        addToWishlistButton.disabled = true;
+                                        addToWishlistButton.classList.add("disabled-button");
+                                    } else {
+                                        alert('Failed to add product to wishlist.');
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                    alert('An error occurred while adding the product to the wishlist.');
+                                });
+                        });
+                    }
+                })
+                .catch(error => console.error("Error checking wishlist status:", error));
+        });
+
+        document.getElementById('addToCart').addEventListener('click', function () {
+            const productId = this.getAttribute('data-product-id');
+            const productSize = document.querySelector('.size-option.selected')?.dataset.size;
+            const quantity = 1; // Varsayılan miktar
+
+            if (!productSize) {
+                alert('Please select a size before adding to cart.');
+                return;
+            }
+
+            fetch('/Cart/AddToCart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ productId, productSize, quantity })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(data.message);
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while adding the product to the cart.');
+                });
+        });
+
+
+        </script>
+
+        <div class="reviews-section">
+            @await Component.InvokeAsync("Reviews", new { productId = Model.Id })
+        </div>
+
+        @await Component.InvokeAsync("RelatedProducts", new { category = Model.Category, subcategory = Model.Subcategory, currentProductId = Model.Id })
+
+
+</body>
+</html>

@@ -1,0 +1,165 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] ReFashion</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/rf.ico">
+    <script>
+        const isAuthenticated = "@ViewBag.IsAuthenticated".toLowerCase() === "true";
+    </script>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <!-- Üst Kısım -->
+            <div class="navbar-top">
+
+                <div class="navbar-info">
+                    <p>🌱 FOR EVERY ORDER, WE PLANT A TREE TO MAKE THE PLANET GREENER! <a href="#" id="seeDetailsLink">SEE DETAILS</a></p>
+                </div>
+            </div>
+            <!-- Popup Modal -->
+            <div id="treePopup" class="popup">
+                <div class="popup-content">
+                    <span class="close-popup" id="closePopup">&times;</span>
+                    <h2>Why Plant a Tree?</h2>
+                    <p>
+                        At ReFashion, we believe in giving back to the planet. For every order you place, we plant a tree in collaboration with trusted environmental organizations.
+                        <br><br>
+                        🌿 Each tree contributes to reducing CO2 emissions, combating climate change, and restoring our forests.
+                        <br><br>
+                        Together, we can make the world greener and more sustainable!
+                    </p>
+                </div>
+            </div>
+            <!-- Ana Navbar -->
+            <div class="navbar-main">
+                <div class="logo">
+                    <a href="/">ReFashion</a>
+                </div>
+                <div class="menu">
+
+                    @await Component.InvokeAsync("CategoryMenu")
+
+
+                    <div class="dropdown">
+                        <button class="dropbtn">Kids</button>
+                        <div class="dropdown-content">
+                            <strong>GIRLS</strong>
+                            <a href="/Products/BySubcategory?category=Kids&subcategory=Girls%201-6%20Years">1-6 YEARS</a>
+                            <a href="/Products/BySubcategory?category=Kids&subcategory=Girls%206-14%20Years">6-14 YEARS</a>
+                            <a href="/Products/BySubcategory?category=Kids&subcategory=Girls%20%2B14%20Years">+14 YEARS</a>
+                            <strong>BOYS</strong>
+                            <a href="/Products/BySubcategory?category=Kids&subcategory=Boys%201-6%20Years">1-6 YEARS</a>
+                            <a href="/Products/BySubcategory?category=Kids&subcategory=Boys%206-14%20Years">6-14 YEARS</a>
+                            <strong>BABIES</strong>
+                            <a href="/Products/BySubcategory?category=Kids&subcategory=Babies">//ALL</a>
+                        </div>
+                    </div>
+
+
+                    <a href="/Products/Bestseller">Bestseller</a>
+                    
+                </div>
+
+
+                <div class="navbar-icons">
+                    <div class="search-bar">
+                        <input type="text" id="searchInput" placeholder="Search...">
+                        <button id="searchButton">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+
+                    <a href="/Wishlist" id="wishlistIcon" class="restricted">
+                        <i class="fas fa-heart"></i>
+                    </a>
+                    <a href="/Cart" id="cartIcon" class="restricted">
+                        <i class="fas fa-shopping-cart"></i>
+                    </a>
+
+                    <div class="dropdownuser">
+                        <a href="#" class="dropdownuser-toggle" id="accountDropdown">
+                            <i class="fas fa-user"></i>
+                        </a>
+                        <div class="dropdownuser-content" id="accountDropdownContent">
+                            <!-- Oturum Durumuna Göre Değişen İçerik -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main role="main" class="container">
+        @RenderBody()
+    </main>
+    <footer>
+        @await Html.PartialAsync("_Footer")
+        @RenderSection("Scripts", required: false)
+
+        <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Razor'dan oturum bilgisi ViewBag aracılığıyla aktarılıyor
+        const isAuthenticated = "@(User.Identity.IsAuthenticated.ToString().ToLower())" === "true";
+
+
+        // Navbar öğelerini tanımla
+        const accountDropdownContent = document.getElementById("accountDropdownContent");
+        const wishlistIcon = document.getElementById("wishlistIcon");
+        const cartIcon = document.getElementById("cartIcon");
+
+        if (isAuthenticated) {
+            // Oturum açılmış durumda yapılacak işlemler
+            accountDropdownContent.innerHTML = `
+                <a href="/Account/Logout" onclick="return confirm('Are you sure you want to log out?');">Logout</a>
+            `;
+
+            wishlistIcon.href = "/Wishlist"; // Doğrudan yönlendirme
+            cartIcon.href = "/Cart"; // Doğrudan yönlendirme
+        } else {
+            // Oturum açılmamış durumda yapılacak işlemler
+            accountDropdownContent.innerHTML = `
+                <a href="/Account/Login">Log In</a>
+                <a href="/Account/Register">Register</a>
+            `;
+
+            // Wishlist için uyarı ekle
+            wishlistIcon.addEventListener("click", function (e) {
+                e.preventDefault();
+                alert("You must log in to access your wishlist.");
+                window.location.href = "/Account/Login";
+            });
+
+            // Cart için uyarı ekle
+            cartIcon.addEventListener("click", function (e) {
+                e.preventDefault();
+                alert("You must log in to access your cart.");
+                window.location.href = "/Account/Login";
+            });
+        }
+
+        // Arama butonu için dinleyici
+        const searchButton = document.getElementById('searchButton');
+        const searchInput = document.getElementById('searchInput');
+
+        searchButton.addEventListener('click', function () {
+            const query = searchInput.value.trim(); // Kullanıcının girdiği değeri al
+            if (query) {
+                const searchUrl = `/Products/SearchResults?query=${encodeURIComponent(query)}`; // Query parametresi ile yönlendir
+                window.location.href = searchUrl;
+            } else {
+                console.log("Search input is empty"); // Boşsa konsola yazdır
+            }
+        });
+    });
+        </script>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,23 @@
+﻿@model List<ECommerceApp.Models.ProductDetail>
+
+<div class="related-products">
+    <h3>You May Also Like</h3>
+    <div class="related-products-list">
+        @foreach (var product in Model)
+        {
+            <div class="related-product-item">
+                <a href="/Products/Detail/@product.Id">
+                    <div class="image-container">
+                        <img src="@product.ImageUrl" alt="@product.Name" class="related-product-image" />
+                    </div>
+                    <div class="info-container">
+                        <p class="product-name">@product.Name</p>
+                        <span class="price">₺@product.Price.ToString("N2")</span>
+                    </div>
+                </a>
+            </div>
+        }
+    </div>
+</div>
+
+

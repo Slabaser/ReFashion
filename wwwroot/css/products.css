@@ -1,0 +1,86 @@
+﻿/* Ürün Listeleme Alanı */
+.product-list {
+    display: flex;
+    flex-wrap: wrap; /* Satır kaydırma */
+    gap: 20px; /* Kartlar arasındaki boşluk */
+    justify-content: center; /* Kartları ortala */
+    padding: 20px; /* Genel boşluk */
+}
+
+/* Ürün Kartı */
+.product-item {
+    width: 300px; /* Kart genişliği */
+    border: 1px solid #ddd; /* Kenarlık */
+    border-radius: 10px; /* Yuvarlatılmış kenarlar */
+    background-color: #fff; /* Arka plan rengi */
+    overflow: hidden; /* Taşma engeli */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Hafif gölge */
+    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Hover efekti */
+}
+
+    /* Hover Efekti */
+    .product-item:hover {
+        transform: scale(1.05); /* Hover sırasında büyüme efekti */
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Gölge yoğunluğu artırılır */
+    }
+
+/* Ürün Resmi */
+.product-image {
+    width: 100%; /* Kart genişliğini kapla */
+    height: 300px; /* Resim yüksekliği */
+    object-fit: cover; /* Resmi kırpmadan sığdır */
+}
+
+/* Ürün Detayları */
+.product-details {
+    padding: 15px; /* İçerik boşluğu */
+    text-align: center; /* Metinleri ortala */
+}
+
+    .product-details h2 {
+        
+        font-size: 1.1rem; /* Başlık boyutu */
+        margin: 10px 0; /* Başlık üst-alt boşluğu */
+        color: #333; /* Başlık rengi */
+        overflow: hidden; /* Uzun başlıkları kes */
+        text-overflow: ellipsis; /* Ellipsis ekle */
+        white-space: nowrap; /* Tek satırda göster */
+    }
+
+    .product-details p {
+        font-size: 0.9rem; /* Açıklama boyutu */
+        margin-bottom: 10px; /* Açıklama alt boşluğu */
+        color: #666; /* Açıklama rengi */
+        overflow: hidden; /* Uzun açıklamaları kes */
+        text-overflow: ellipsis; /* Ellipsis ekle */
+        white-space: nowrap; /* Tek satırda göster */
+    }
+
+.price {
+    font-size: 1.2rem; /* Fiyat boyutu */
+    font-weight: bold; /* Fiyat kalınlığı */
+    color: #6A7326; /* Fiyat rengi */
+}
+h1 {
+    text-align: center; /* Ortala */
+    color: #333333; /* Koyu gri renk */
+    font-size: 2.2rem; /* Boyutu ayarla */
+    margin-bottom: 20px; /* Alt boşluk */
+    font-weight: bold; /* Kalın yazı */
+}
+
+h2 {
+    text-align: center;
+    color: #666;
+    font-size: 1rem;
+}
+
+.product-item a {
+    text-decoration: none; /* Alt çizgiyi kaldırır */
+    color: inherit; /* Linklerin rengini normal metinle aynı yapar */
+    transition: color 0.3s ease; /* Hover durumunda yumuşak geçiş */
+}
+
+    .product-item a:hover {
+        color: #6A7326; /* Hover durumunda rengi değiştir */
+    }

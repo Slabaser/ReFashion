@@ -1,0 +1,79 @@
+﻿@model ECommerceApp.Models.LoginViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - ReFashion</title>
+    <link rel="stylesheet" href="/css/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="/rf.ico">
+</head>
+
+<body>
+    <div class="auth-container">
+        <!-- Sol Kısım: Slider -->
+        <div class="auth-image-slider">
+            <a href="/" class="logo">ReFashion</a>
+            <div class="slider">
+                <img src="/images/image1.jpg" alt="Slide 1" class="slider-image active">
+                <img src="/images/image2.jpg" alt="Slide 2" class="slider-image">
+                <img src="/images/image3.jpg" alt="Slide 3" class="slider-image">
+            </div>
+        </div>
+
+        <!-- Sağ Kısım: Form -->
+        <div class="auth-form">
+            <h1>Log in</h1>
+
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success">
+                    @TempData["SuccessMessage"]
+                </div>
+            }
+
+            <p>Don’t have an account? <a href="/Account/Register">Create one</a></p>
+
+            <form asp-action="Login" asp-controller="Account" method="post">
+                @Html.AntiForgeryToken()
+                <div class="form-group">
+                    <input asp-for="Email" placeholder="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group password-group">
+                    <input asp-for="Password" type="password" placeholder="Enter your password" id="password" class="form-control" />
+                    <i class="fas fa-eye toggle-password" onclick="togglePasswordVisibility()"></i>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-group btn-wrapper">
+                    <button type="submit" class="btn-submit">Log In</button>
+                </div>
+                <div class="form-group social-login">
+                    <p>Or log in with</p>
+                    <hr />
+                    <button class="btn-google">
+                        <i class="fab fa-google"></i> Google
+                    </button>
+                </div>
+                <div class="form-group">
+                    <a href="#" class="forgot-password">Forgot your password?</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>function togglePasswordVisibility() {
+            const passwordField = document.getElementById("password");
+            const type = passwordField.getAttribute("type") === "password" ? "text" : "password";
+            passwordField.setAttribute("type", type);
+        }</script>
+</body>
+
+</html>

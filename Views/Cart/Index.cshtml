@@ -1,0 +1,175 @@
+﻿@model List<ECommerceApp.Models.CartItem>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart</title>
+    <link rel="stylesheet" href="/css/Cart.css">
+</head>
+<body>
+    <div class="cart-container">
+        <h1>Your Cart</h1>
+        @if (Model != null && Model.Any())
+        {
+            <div class="cart-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Size</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="product-info">
+                                        <img src="@item.ImageUrl" alt="@item.ProductName" class="product-image" />
+                                        <p class="product-name">@item.ProductName</p>
+                                    </div>
+                                </td>
+                                <td>
+                                    <p class="product-size">@item.ProductSize</p>
+                                </td>
+                                <td>
+                                    <div class="quantity-controls">
+                                        <button class="decrement-quantity" data-product-id="@item.ProductId" data-product-size="@item.ProductSize">-</button>
+                                        <input type="number" value="@item.Quantity" min="1" max="10" class="quantity-input" readonly />
+                                        <button class="increment-quantity" data-product-id="@item.ProductId" data-product-size="@item.ProductSize">+</button>
+                                    </div>
+                                </td>
+                                <td>₺@item.ProductPrice.ToString("N2")</td>
+                                <td>
+                                    <button class="remove-item-btn" data-product-id="@item.ProductId" data-product-size="@item.ProductSize">Remove</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="cart-summary">
+                <p>Subtotal: ₺@Model.Sum(x => x.ProductPrice * x.Quantity).ToString("N2")</p>
+                <p>Discount: ₺0.00</p>
+                <p>Grand Total: ₺@Model.Sum(x => x.ProductPrice * x.Quantity).ToString("N2")</p>
+                <button class="checkout-btn">Checkout Now</button>
+            </div>
+        }
+        else
+        {
+            <p>Your cart is empty. Start shopping now!</p>
+        }
+    </div>
+
+    <script>document.addEventListener('DOMContentLoaded', function () {
+            // Increment quantity
+            document.querySelectorAll('.increment-quantity').forEach(button => {
+                button.addEventListener('click', function () {
+                    const productId = this.getAttribute('data-product-id');
+                    const productSize = this.getAttribute('data-product-size');
+                    const input = this.previousElementSibling;
+                    let quantity = parseInt(input.value) || 0;
+
+                    // Maksimum kontrolü
+                    const maxQuantity = parseInt(input.getAttribute('max')) || 10; // Varsayılan max = 10
+                    if (quantity < maxQuantity) {
+                        quantity++;
+                        updateQuantity(productId, productSize, quantity, input);
+                    } else {
+                        alert(`You cannot add more than ${maxQuantity} items.`);
+                    }
+                });
+            });
+
+            // Decrement quantity
+            document.querySelectorAll('.decrement-quantity').forEach(button => {
+                button.addEventListener('click', function () {
+                    const productId = this.getAttribute('data-product-id');
+                    const productSize = this.getAttribute('data-product-size');
+                    const input = this.nextElementSibling;
+                    let quantity = parseInt(input.value) || 1;
+
+                    if (quantity > 1) {
+                        quantity--;
+                        updateQuantity(productId, productSize, quantity, input);
+                    } else {
+                        alert("Quantity must be at least 1.");
+                    }
+                });
+            });
+
+            // Update quantity function
+            function updateQuantity(productId, productSize, quantity, input) {
+                fetch('/Cart/UpdateQuantity', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ productId, productSize, quantity })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            input.value = quantity;
+                            location.reload(); // Reload page to reflect updated totals
+                        } else {
+                            alert(data.message);
+                        }
+                    })
+                    .catch(error => console.error("Error updating quantity:", error));
+            }
+
+            // Remove item from cart
+    document.querySelectorAll('.remove-item-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            const productId = this.getAttribute('data-product-id');
+
+            if (!productId) {
+                alert("Invalid product ID.");
+                return;
+            }
+
+            fetch('/Cart/RemoveFromCartByProductId', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(productId)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(data.message);
+                        location.reload(); // Sayfayı yenileyerek güncellenen verileri göster
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("An error occurred while removing the product.");
+                });
+        });
+    });
+
+
+
+
+
+
+            // Checkout functionality
+            document.querySelector('.checkout-btn').addEventListener('click', function () {
+                // Kullanıcıyı Checkout sayfasına yönlendir
+                window.location.href = '/Checkout';
+            });
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,79 @@
+﻿.wishlist-container {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    font-family: 'Arial', sans-serif;
+}
+
+    .wishlist-container h1 {
+        font-size: 2.4rem;
+        margin-bottom: 30px;
+        color: #222;
+        text-align: center;
+    }
+
+    .wishlist-container ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .wishlist-container li {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px;
+        margin-bottom: 15px;
+        background-color: #fff;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+        .wishlist-container li img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            margin-right: 20px;
+        }
+
+        .wishlist-container li h3 {
+            font-size: 1.2rem;
+            color: #333;
+            margin: 0;
+            flex-grow: 1;
+        }
+
+        .wishlist-container li p {
+            font-size: 1rem;
+            color: #666;
+            margin: 0 20px 0 0;
+            font-weight: bold;
+        }
+
+    .wishlist-container .icon-container {
+        display: flex;
+        gap: 10px;
+    }
+
+        .wishlist-container .icon-container i {
+            font-size: 1.5rem;
+            color: #666;
+            cursor: pointer;
+            transition: color 0.3s ease, transform 0.2s ease;
+        }
+
+            .wishlist-container .icon-container i:hover {
+                color: #550F27; /* Çöp simgesi için kırmızı */
+                transform: scale(1.2); /* Biraz büyütme efekti */
+            }
+
+        .wishlist-container .icon-container .cart-icon:hover {
+            color: #6A7326; /* Sepet simgesi için yeşil */
+        }

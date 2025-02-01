@@ -1,0 +1,46 @@
+﻿@model List<ECommerceApp.Models.ProductDetail>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    <link rel="stylesheet" href="/css/products.css">
+</head>
+<body>
+    <div class="products-header">
+        <h1>Products in Category: @ViewBag.Category</h1>
+
+        @if (!string.IsNullOrEmpty(ViewBag.Subcategory))
+        {
+            <h2>Subcategory: @ViewBag.Subcategory</h2>
+        }
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="product-list">
+            @foreach (var product in Model)
+            {
+                <div class="product-item">
+                    <a href="/Products/Detail?id=@product.Id">
+                        <img src="@product.ImageUrl" alt="@product.Name" class="product-image" />
+                        <div class="product-details">
+                            <h2>@product.Name</h2>
+                            <p>@product.Description</p>
+                            <span class="price">₺@product.Price.ToString("N2")</span>
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="no-products">
+            <p>No products available in this category or subcategory.</p>
+        </div>
+    }
+</body>
+</html>

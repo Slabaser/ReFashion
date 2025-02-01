@@ -1,0 +1,111 @@
+﻿@model ECommerceApp.Models.PaymentViewModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment</title>
+    <link rel="stylesheet" href="/css/Payment.css">
+</head>
+<body>
+    <div class="payment-container">
+        <h1>Complete Your Payment</h1>
+
+        @if (TempData["Logs"] != null)
+        {
+            <div class="logs">
+                <h3>Log Output:</h3>
+                <pre>@TempData["Logs"]</pre>
+            </div>
+        }
+    <div class="order-summary">
+        <h2>Order Summary</h2>
+        @foreach (var item in Model.CartItems)
+        {
+            <p>@item.ProductName - Qty: @item.Quantity - Price: ₺@item.ProductPrice.ToString("N2")</p>
+        }
+        <p>Subtotal: ₺@Model.Subtotal.ToString("N2")</p>
+        <p>Shipping: ₺@Model.ShippingCost.ToString("N2")</p>
+        <p>Grand Total: ₺@Model.GrandTotal.ToString("N2")</p>
+    </div>
+
+        <!-- Payment Form -->
+        <form method="post" asp-action="ProcessPayment">
+            <h2>Payment Information</h2>
+            <div class="form-group">
+                <label asp-for="PaymentMethod" class="form-label">Payment Method</label>
+                <select asp-for="PaymentMethod" class="form-select" required>
+                    <option value="">-- Select Payment Method --</option>
+                    <option value="Credit Card">Credit Card</option>
+                    <option value="PayPal">PayPal</option>
+                </select>
+                <span asp-validation-for="PaymentMethod" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="NameOnCard" class="form-label">Name on Card</label>
+                <input asp-for="NameOnCard" type="text" class="form-control" placeholder="John Doe" required />
+                <span asp-validation-for="NameOnCard" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="CardNumber" class="form-label">Card Number</label>
+                <input asp-for="CardNumber" type="text" class="form-control" placeholder="1234 5678 9012 3456" required />
+                <span asp-validation-for="CardNumber" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ExpirationDate" class="form-label">Expiration Date</label>
+                <input asp-for="ExpirationDate" type="text" class="form-control" placeholder="MM/YY" required />
+                <span asp-validation-for="ExpirationDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="CVV" class="form-label">CVV</label>
+                <input asp-for="CVV" type="text" class="form-control" placeholder="123" required />
+                <span asp-validation-for="CVV" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-submit mt-3">Complete Payment</button>
+        </form>
+
+
+        <script>document.addEventListener('DOMContentLoaded', function () {
+                const grandTotalElement = document.getElementById('grand-total');
+                const subtotalElement = document.getElementById('subtotal');
+                const shippingCostElement = document.getElementById('shippingCost');
+
+                function formatCurrency(value) {
+                    return `₺${value.toFixed(2)}`;
+                }
+
+                // Update grand total dynamically
+                function updateGrandTotal() {
+                    if (!grandTotalElement || !subtotalElement || !shippingCostElement) {
+                        console.error("One or more elements are missing.");
+                        return;
+                    }
+
+                    const subtotal = parseFloat(subtotalElement.textContent.replace('₺', '').replace(',', '')) || 0;
+                    const shipping = parseFloat(shippingCostElement.textContent.replace('₺', '').replace(',', '')) || 0;
+
+                    if (isNaN(subtotal) || isNaN(shipping)) {
+                        console.error("Invalid values for subtotal or shipping.");
+                        grandTotalElement.textContent = "₺0.00";
+                        return;
+                    }
+
+                    const grandTotal = subtotal + shipping;
+                    grandTotalElement.textContent = formatCurrency(grandTotal);
+                }
+
+                updateGrandTotal(); // Initial load
+            });
+            
+        </script>
+
+
+
+</body>
+</html>

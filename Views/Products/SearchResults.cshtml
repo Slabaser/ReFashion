@@ -1,0 +1,26 @@
+﻿@model List<ECommerceApp.Models.ProductDetail>
+
+<h1>Search Results for "@ViewBag.Query"</h1>
+<link rel="stylesheet" href="/css/products.css">
+@if (!Model.Any())
+{
+    <p>No products found matching your search.</p>
+}
+else
+{
+<div class="product-list">
+    @foreach (var product in Model)
+    {
+        <div class="product-item">
+            <a href="/Products/Detail?id=@product.Id">
+                <img src="@product.ImageUrl" alt="@product.Name" class="product-image" />
+                <div class="product-details">
+                    <h2>@product.Name</h2>
+                    <p>@product.Description</p>
+                    <span class="price">₺@product.Price.ToString("N2")</span>
+                </div>
+            </a>
+        </div>
+    }
+</div>
+}

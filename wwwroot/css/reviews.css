@@ -1,0 +1,129 @@
+﻿/* Genel Ayarlar */
+.reviews-container {
+    font-family: 'Didot', serif;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f7f5ef; /* Hafif krem rengi arka plan */
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Hafif gölge */
+}
+
+    .reviews-container h2 {
+        font-size: 2rem;
+        color: #000000; /* Siyah yazı rengi */
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .reviews-container ul {
+        list-style: none;
+        padding: 0;
+    }
+
+        .reviews-container ul li {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #ffffff; /* Beyaz kutular */
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); /* Hafif gölge */
+        }
+
+            .reviews-container ul li p {
+                margin: 5px 0;
+                color: #333333; /* Koyu gri metin */
+                line-height: 1.6;
+            }
+
+            .reviews-container ul li strong {
+                color: #6a7326; /* Vurgu için yeşil */
+            }
+
+            .reviews-container ul li:nth-child(even) {
+                background-color: #f9f9f9; /* Çift sırada farklı arka plan */
+            }
+
+    /* Form Başlık */
+    .reviews-container h3 {
+        font-size: 1.5rem;
+        color: #000000;
+        margin-top: 30px;
+        text-align: center;
+    }
+
+    /* Form Stilleri */
+    .reviews-container form {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+        .reviews-container form div {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .reviews-container form label {
+            font-size: 1rem;
+            color: #000000;
+        }
+
+        .reviews-container form input[type="number"],
+        .reviews-container form textarea {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: 'Didot', serif;
+            font-size: 1rem;
+            color: #333;
+            background-color: #ffffff; /* Beyaz arka plan */
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05); /* İç gölge */
+        }
+
+            .reviews-container form input[type="number"]:focus,
+            .reviews-container form textarea:focus {
+                outline: none;
+                border-color: #6a7326; /* Odaklanıldığında yeşil kenarlık */
+                box-shadow: 0 0 5px rgba(106, 115, 38, 0.5); /* Odak gölgesi */
+            }
+
+        .reviews-container form button {
+            padding: 10px 20px;
+            background-color: #6a7326; /* Yeşil arka plan */
+            color: #ffffff; /* Beyaz yazı */
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-family: 'Didot', serif;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+            .reviews-container form button:hover {
+                background-color: #55631c; /* Daha koyu yeşil */
+                transform: scale(1.05); /* Hafif büyütme efekti */
+            }
+
+            .reviews-container form button:active {
+                background-color: #6a7326; /* Eski yeşil */
+                transform: scale(1); /* Normal büyüklük */
+            }
+
+/* Mobil Uyumluluk */
+@media (max-width: 768px) {
+    .reviews-container {
+        padding: 15px;
+    }
+
+        .reviews-container ul li {
+            padding: 10px;
+        }
+
+        .reviews-container form div {
+            flex-direction: column;
+        }
+}

@@ -1,0 +1,303 @@
+﻿/* Genel stil */
+body {
+    font-family: 'Playfair Display', serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.product-detail-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px; /* Daha geniş aralık */
+    padding: 40px 15px; /* Daha fazla üst-alt boşluk */
+    margin: 30px auto; /* Daha fazla alt-üst boşluk */
+    max-width: 1000px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Resim alanı */
+.product-detail-image {
+    flex: 1 1 300px; /* Daha geniş resim alanı */
+    text-align: center;
+    position: relative;
+    overflow: hidden; /* Resim taşmasını önler */
+    cursor: zoom-in; /* İmleci büyüteç yapar */
+}
+
+    .product-detail-image img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, filter 0.3s ease; /* Yumuşak zoom efekti */
+    }
+
+        .product-detail-image img:hover {
+            transform: scale(1.03); /* Hover'da çok hafif büyür */
+            filter: brightness(90%); /* Hafif karartma efekti */
+            cursor: zoom-out; /* İmleç geri dönüş */
+            border-radius: 8px;
+        }
+
+/* Büyütme sırasında kapsayıcıdan taşmayı önlemek için */
+.product-detail-image {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Bilgi alanı */
+.product-detail-info {
+    flex: 1 1 400px; /* Daha geniş bilgi alanı */
+    padding: 10px; /* Bilgi alanı için daha fazla padding */
+}
+
+    .product-detail-info h1 {
+        font-size: 2rem; /* Daha büyük başlık */
+        color: #6A7326;
+        margin-bottom: 12px; /* Daha fazla boşluk */
+    }
+
+    .product-detail-info p {
+        font-size: 1.1rem; /* Daha büyük yazı */
+        margin: 6px 0; /* Daha fazla satır arası boşluk */
+        color: #555;
+    }
+
+    .product-detail-info .price {
+        font-size: 1.5rem; /* Daha büyük fiyat yazısı */
+        color: #6A7326;
+        font-weight: bold;
+        margin-top: 15px; /* Daha fazla boşluk */
+    }
+
+/* Beden seçenekleri */
+.sizes {
+    margin: 15px 0; /* Daha fazla boşluk */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Daha geniş buton aralığı */
+}
+
+    .sizes button {
+        padding: 8px 15px; /* Daha büyük butonlar */
+        font-size: 1rem; /* Daha büyük yazı boyutu */
+        border: 1px solid #ddd;
+        background-color: #fff;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+        .sizes button:hover {
+            border-color: #6A7326;
+            background-color: #f9f9f9;
+        }
+
+        .sizes button.selected {
+            border-color: #333;
+            background-color: #fff;
+            font-weight: bold;
+            color: #333;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+/* Sepete ekle butonu */
+.add-to-cart {
+    margin-top: 20px; /* Daha fazla boşluk */
+    padding: 10px 25px; /* Daha geniş buton */
+    font-size: 1.1rem; /* Daha büyük yazı boyutu */
+    font-weight: bold;
+    background-color: #6A7326;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+    .add-to-cart:hover {
+        background-color: #55621d;
+        transform: translateY(-2px); /* Daha belirgin hover efekti */
+    }
+
+/* Responsive Tasarım */
+@media (max-width: 768px) {
+    .product-detail-container {
+        flex-direction: column;
+        align-items: center;
+        padding: 30px 10px; /* Responsive için az padding */
+    }
+
+    .product-detail-image,
+    .product-detail-info {
+        flex: 1 1 100%;
+        text-align: center;
+    }
+
+        .product-detail-info h1 {
+            font-size: 1.8rem; /* Responsive'da başlık biraz daha küçük */
+        }
+
+    .add-to-cart {
+        width: 100%;
+        padding: 12px 0; /* Responsive için daha büyük buton */
+    }
+}
+
+.related-products {
+    margin-top: 20px;
+    margin-bottom: 40px; /* Kartlar ile footer arasında boşluk */
+}
+
+    .related-products h3 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 1.8rem;
+    }
+
+.related-products-list {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.related-product-item {
+    width: 220px; /* Kart genişliği sabit */
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .related-product-item:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+.related-product-image {
+    width: 100%; /* Resimler kartın genişliğini dolduracak */
+    height: 250px; /* Yüksekliği artırıldı */
+    object-fit: cover; /* Resim oranını koruyarak alanı doldurur */
+}
+
+.related-product-item p {
+    font-size: 1rem;
+    margin: 10px 0 5px; /* Yazılar arasındaki boşluklar ayarlandı */
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.related-product-item .price {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #6A7326; /* Yeşil ton */
+    margin-bottom: 10px; /* Fiyat ile alt boşluk */
+}
+.related-product-item a {
+    text-decoration: none; /* Alt çizgiyi kaldırır */
+    color: inherit; /* Varsayılan yazı rengini korur */
+    display: block; /* Tüm içerik tıklanabilir alan olur */
+}
+
+/* addToWishlist button stili */
+.wishlist-button {
+    margin-top: 20px; /* Üst boşluk */
+    padding: 10px 25px; /* Buton boyutları */
+    font-size: 1.1rem; /* Yazı boyutu */
+    font-weight: bold; /* Kalın yazı */
+    background-color: #DB6068; /* Farklı ama uyumlu bir renk */
+    color: #fff; /* Beyaz yazı rengi */
+    border: none; /* Çerçevesiz */
+    border-radius: 5px; /* Hafif yuvarlak köşeler */
+    cursor: pointer; /* İmleç şekli */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Hover ve tıklama efekti */
+}
+
+    /* Hover efekti */
+    .wishlist-button:hover {
+        background-color: #94465a; /* Daha koyu bir ton */
+        transform: translateY(-2px); /* Hafif yukarı hareket */
+    }
+
+    /* Disabled durumu */
+    .wishlist-button.disabled-button {
+        background-color: #ccc; /* Gri arka plan */
+        color: #666; /* Gri yazı rengi */
+        cursor: not-allowed; /* Pasif imleç */
+        transform: none; /* Hareket olmadan */
+        box-shadow: none; /* Gölgesiz */
+    }
+
+/* Mobil uyum */
+@media (max-width: 768px) {
+    .wishlist-button {
+        font-size: 1rem; /* Daha küçük yazı boyutu */
+        padding: 8px 20px; /* Daha kompakt buton */
+    }
+}
+
+/* Sepete ekle ve favorilere ekle butonlarını düzenle */
+.product-detail-buttons {
+    display: flex;
+    flex-direction: column; /* Butonları alt alta diz */
+    align-items: center; /* Ortaya hizala */
+    gap: 15px; /* Butonlar arasında boşluk */
+    margin-top: 20px; /* Yukarıdan boşluk */
+}
+
+/* Sepete ekle butonu */
+.add-to-cart {
+    width: 200px; /* Buton genişliği */
+    padding: 10px 25px; /* Daha geniş buton */
+    font-size: 1.1rem; /* Daha büyük yazı boyutu */
+    font-weight: bold;
+    background-color: #6A7326;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+    .add-to-cart:hover {
+        background-color: #55621d;
+        transform: translateY(-2px); /* Daha belirgin hover efekti */
+    }
+
+/* Favorilere ekle butonu */
+.wishlist-button {
+    width: 200px; /* Aynı genişlik */
+    padding: 10px 25px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    background-color: #DB6068;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+    .wishlist-button:hover {
+        background-color: #94465a;
+        transform: translateY(-2px);
+    }
+
+    /* Disabled durumu */
+    .wishlist-button.disabled-button {
+        background-color: #ccc;
+        color: #666;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+    }

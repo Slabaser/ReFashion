@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation</title>
+    <link rel="stylesheet" href="/css/OrderConfirmation.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="confirmation-container">
+        <h1><i class="fas fa-check-circle"></i> Thank You for Your Order!</h1>
+        <p>Your order has been placed successfully. Below are the details of your order:</p>
+
+        <div class="order-details">
+            <h2><i class="fas fa-info-circle"></i> Order Details</h2>
+            <p><strong>Order ID:</strong> @Model.OrderId</p>
+            <p><strong>Order Date:</strong> @Model.OrderDate.ToString("yyyy-MM-dd HH:mm")</p>
+            <p><strong>Total Amount:</strong> ₺@Model.TotalAmount.ToString("N2")</p>
+        </div>
+
+        <div class="order-items">
+            <h2><i class="fas fa-box"></i> Order Items</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Items)
+                    {
+                        <tr>
+                            <td>@item.ProductName</td>
+                            <td>@item.Quantity</td>
+                            <td>₺@item.ProductPrice.ToString("N2")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="confirmation-actions">
+            <a href="/" class="btn-home"><i class="fas fa-home"></i> Go to Homepage</a>
+        </div>
+    </div>
+</body>
+</html>

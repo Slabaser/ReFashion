@@ -1,0 +1,76 @@
+﻿@model ECommerceApp.Models.RegisterViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create an Account - ReFashion</title>
+    <link rel="stylesheet" href="/css/register.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="/rf.ico">
+</head>
+
+<body>
+    <div class="auth-container">
+        <!-- Sol Kısım: Slider -->
+        <div class="auth-image-slider">
+            <a href="/" class="logo">ReFashion</a>
+            <div class="slider">
+                <img src="/images/image1.jpg" alt="Slide 1" class="slider-image active">
+                <img src="/images/image2.jpg" alt="Slide 2" class="slider-image">
+                <img src="/images/image3.jpg" alt="Slide 3" class="slider-image">
+            </div>
+        </div>
+
+        <!-- Sağ Kısım: Form -->
+        <div class="auth-form">
+            <h1>Create an account</h1>
+            <p>Already have an account? <a href="/Account/Login">Log in</a></p>
+            <form asp-action="Register" asp-controller="Account" method="post">
+                @Html.AntiForgeryToken()
+                <div class="form-group">
+                    <input asp-for="FirstName" placeholder="First Name" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input asp-for="LastName" placeholder="Last Name" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input asp-for="Email" type="email" placeholder="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group password-group">
+                    <div class="password-container">
+                        <input asp-for="Password" type="password" placeholder="Enter your password" class="form-control" id="password" />
+                        <i class="fas fa-eye toggle-password" id="togglePassword"></i>
+                    </div>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="terms" required>
+                    <label for="terms">I agree to the <a href="#">Terms & Conditions</a></label>
+                </div>
+                <div class="form-group btn-wrapper">
+                    <button type="submit" class="btn-submit">Create Account</button>
+                </div>
+            </form>
+            <div class="social-login">
+                <p>Or register with</p>
+                <button class="btn-google">
+                    <i class="fab fa-google"></i> Google
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/login.js"></script>
+</body>
+
+</html>

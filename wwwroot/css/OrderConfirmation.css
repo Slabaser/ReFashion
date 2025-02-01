@@ -1,0 +1,130 @@
+﻿/* Genel Ayarlar */
+body {
+    font-family: 'Didot', serif; /* Yazı tipi */
+    background-color: #f7f5ef; /* Hafif krem arka plan */
+    color: #333; /* Yazı rengi */
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2 {
+    font-family: 'Didot', serif;
+    color: #6a7326; /* Yeşil başlık */
+    text-align: center;
+}
+
+.confirmation-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff; /* Beyaz arka plan */
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Hafif gölge */
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+    /* Genel Bilgiler */
+    .confirmation-container p {
+        font-size: 1rem;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+/* Sipariş Detayları */
+.order-details {
+    text-align: left;
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f9f9f9; /* Hafif gri arka plan */
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+    .order-details p {
+        margin: 5px 0;
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+
+    .order-details strong {
+        color: #6a7326; /* Yeşil vurgu */
+    }
+
+/* Sipariş Ürünleri */
+.order-items {
+    margin-top: 30px;
+}
+
+    .order-items table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    .order-items th,
+    .order-items td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        font-size: 1rem;
+        text-align: left;
+    }
+
+    .order-items th {
+        background-color: #6a7326; /* Yeşil başlık */
+        color: #fff; /* Beyaz yazı */
+    }
+
+    .order-items tr:nth-child(even) {
+        background-color: #f9f9f9; /* Çift sıra için hafif gri */
+    }
+
+/* Düğmeler */
+.confirmation-actions {
+    margin-top: 30px;
+}
+
+.btn-home {
+    padding: 10px 20px;
+    background-color: #6a7326; /* Yeşil arka plan */
+    color: #fff; /* Beyaz yazı */
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-family: 'Didot', serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+    .btn-home:hover {
+        background-color: #55631c; /* Daha koyu yeşil */
+        transform: scale(1.05); /* Hafif büyütme */
+    }
+
+    .btn-home i {
+        font-size: 1.2rem; /* İkon boyutu */
+    }
+
+/* Responsive Tasarım */
+@media (max-width: 768px) {
+    .confirmation-container {
+        padding: 15px;
+    }
+
+    .order-details {
+        padding: 10px;
+    }
+
+    .order-items table {
+        font-size: 0.9rem;
+    }
+
+    .btn-home {
+        width: 100%; /* Mobilde tam genişlik */
+    }
+}

@@ -1,0 +1,25 @@
+﻿<div class="dropdown">
+    <button class="dropbtn">Women</button>
+    <div class="dropdown-content">
+        <a href="/Products?category=Women">//ALL</a>
+        @foreach (var subcategory in ViewBag.WomenSubcategories)
+        {
+            <a href="/Products/BySubcategory?category=Women&subcategory=@subcategory.Replace(" / ", "/")">
+                @subcategory
+            </a>
+        }
+    </div>
+</div>
+
+<div class="dropdown">
+    <button class="dropbtn">Men</button>
+    <div class="dropdown-content">
+        <a href="/Products?category=Men">//ALL</a>
+        @foreach (var subcategory in ViewBag.MenSubcategories)
+        {
+            <a href="/Products/BySubcategory?category=Men&subcategory=@subcategory.Replace(" / ", "/")">
+                @subcategory
+            </a>
+        }
+    </div>
+</div>
