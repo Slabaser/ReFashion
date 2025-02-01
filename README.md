@@ -63,4 +63,7 @@ We welcome contributions! If you'd like to contribute, please fork the repositor
 ## Support the Project
 If you like this project, please consider giving it a star on GitHub!
 
+## Video Demonstration
+Check out the project demo on YouTube: https://youtu.be/kWvQ-tnsFhw?si=UEqtKdeIg95bvGE1
+
 **"Shop Sustainably. Make a Difference."** 🌿
