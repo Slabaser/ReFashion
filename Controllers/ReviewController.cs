@@ -1,4 +1,4 @@
-﻿using ECommerceApp.Models;
+using ECommerceApp.Models;
 using ECommerceApp.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,6 +19,12 @@ namespace ECommerceApp.Controllers
             if (!User.Identity.IsAuthenticated)
             {
                 return Json(new { success = false, message = "You must be logged in to add a review." });
+            }
+
+            // ✅ Model geçerliliği kontrolü
+            if (!ModelState.IsValid)
+            {
+                return Json(new { success = false, message = "Invalid review data." });
             }
 
             review.UserId = HttpContext.User.FindFirst("UserId")?.Value;
