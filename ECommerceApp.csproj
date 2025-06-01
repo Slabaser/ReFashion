@@ -42,6 +42,8 @@
     <Folder Include="Views\Checkout\" />
     <Folder Include="Views\Payment\" />
     <Folder Include="Views\Shared\Components\Reviews\" />
+    <Folder Include=".github\" />
+    <Folder Include=".github\workflows\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Filters\" />
@@ -54,6 +56,9 @@
     <None Remove="Views\Checkout\" />
     <None Remove="Views\Payment\" />
     <None Remove="Views\Shared\Components\Reviews\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".github\workflows\build.yml" />
   </ItemGroup>
 </Project>
 

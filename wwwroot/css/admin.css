@@ -7,6 +7,7 @@ body {
 /* Navbar */
 .navbar {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
 }
 
 /* Sayfa Başlıkları */
@@ -31,6 +32,7 @@ h2 {
     border-radius: 8px;
     padding: 10px 15px;
     font-weight: bold;
+    margin-bottom: 10px;
 }
 
 .btn:hover {
@@ -68,8 +70,10 @@ h2 {
 
 /* Footer */
 .footer {
-    position: relative;
+    background: #343a40;
+    position: fixed;
     bottom: 0;
     width: 100%;
-    background: #343a40;
+    text-align: center;
+    padding: 10px;
 }
