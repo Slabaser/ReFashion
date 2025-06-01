@@ -1,4 +1,4 @@
-﻿using ECommerceApp.Models;
+using ECommerceApp.Models;
 using ECommerceApp.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
@@ -31,15 +31,15 @@ namespace ECommerceApp.Controllers
                 ViewBag.Message = "Your wishlist is empty.";
                 return View(new Wishlist { Items = new List<WishlistItem>() });
             }
-            var totalFavorites = wishlist?.Items?.Count ?? 0;
 
+            var totalFavorites = wishlist?.Items?.Count ?? 0;
             ViewBag.TotalFavorites = totalFavorites;
+
             return View(wishlist);
         }
 
         [HttpPost]
         [Route("Wishlist/AddToWishlist")]
-        [HttpPost]
         public IActionResult AddToWishlist([FromBody] WishlistItem item)
         {
             var userId = HttpContext.User.FindFirst("UserId")?.Value;
@@ -49,10 +49,9 @@ namespace ECommerceApp.Controllers
                 return Json(new { success = false, message = "You must be logged in to add items to your wishlist." });
             }
 
-            // Gelen verileri kontrol et
-            if (item == null || string.IsNullOrEmpty(item.ProductId) || string.IsNullOrEmpty(item.ProductName))
+            if (!ModelState.IsValid)
             {
-                return Json(new { success = false, message = "Product information is missing." });
+                return Json(new { success = false, message = "Invalid wishlist item data." });
             }
 
             try
@@ -68,9 +67,6 @@ namespace ECommerceApp.Controllers
             }
         }
 
-
-
-        [HttpPost]
         [HttpPost]
         public IActionResult RemoveFromWishlist([FromBody] WishlistItem item)
         {
@@ -81,9 +77,9 @@ namespace ECommerceApp.Controllers
                 return Json(new { success = false, message = "You must be logged in to remove items from your wishlist." });
             }
 
-            if (string.IsNullOrEmpty(item.ProductId))
+            if (!ModelState.IsValid)
             {
-                return Json(new { success = false, message = "Product ID is missing." });
+                return Json(new { success = false, message = "Invalid wishlist item data." });
             }
 
             try
@@ -123,6 +119,5 @@ namespace ECommerceApp.Controllers
 
             return Json(new { success = true, inWishlist = false });
         }
-
     }
 }
