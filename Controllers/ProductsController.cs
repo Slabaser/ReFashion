@@ -1,4 +1,4 @@
-﻿using ECommerceApp.Services;
+using ECommerceApp.Services;
 using Microsoft.AspNetCore.Mvc;
 using ECommerceApp.Models;
 using System.Security.Claims;
@@ -14,15 +14,15 @@ namespace ECommerceApp.Controllers
         private readonly ProductRepository _productRepository;
         private readonly ReviewService _reviewService;
 
-        public ProductsController(ProductService productService, WishlistService wishlistService, CartService cartService, ReviewService reviewService)
+        public ProductsController(ProductService productService, WishlistService wishlistService, CartService cartService, ReviewService reviewService, ProductRepository productRepository)
         {
             _productService = productService;
             _wishlistService = wishlistService;
             _cartService = cartService;
             _reviewService = reviewService;
+            _productRepository = productRepository;
         }
 
-        // Kategoriye göre ürün listeleme
         public IActionResult Index(string category)
         {
             var products = _productService.GetProductsByCategory(category);
@@ -30,7 +30,6 @@ namespace ECommerceApp.Controllers
             return View("Products", products);
         }
 
-        // Alt kategoriye göre ürün listeleme
         public IActionResult BySubcategory(string category, string subcategory)
         {
             var products = _productService.GetProductsBySubcategory(category, subcategory);
@@ -39,7 +38,6 @@ namespace ECommerceApp.Controllers
             return View("Products", products);
         }
 
-        // Ürün detaylarını görüntüleme
         public IActionResult Detail(string id)
         {
             var product = _productService.GetProductById(id);
@@ -47,13 +45,11 @@ namespace ECommerceApp.Controllers
             {
                 return NotFound();
             }
-            var reviews = _reviewService.GetReviewsByProductId(id); // Ürün yorumlarını al
-            ViewBag.Reviews = reviews; // Yorumları View'a gönder
-
+            var reviews = _reviewService.GetReviewsByProductId(id);
+            ViewBag.Reviews = reviews;
             return View(product);
         }
 
-        // Arama sonuçları
         public IActionResult SearchResults(string query, string category)
         {
             if (string.IsNullOrEmpty(query))
@@ -66,7 +62,7 @@ namespace ECommerceApp.Controllers
             ViewBag.Category = category;
             return View(results);
         }
-        //wishlist
+
         public IActionResult AddToWishlist(string productId)
         {
             if (!User.Identity.IsAuthenticated)
@@ -108,6 +104,11 @@ namespace ECommerceApp.Controllers
                 return Json(new { success = false, message = "You must be logged in to add items to your cart." });
             }
 
+            if (string.IsNullOrEmpty(productId) || string.IsNullOrEmpty(productSize) || quantity <= 0)
+            {
+                return Json(new { success = false, message = "Invalid input data." });
+            }
+
             try
             {
                 _cartService.AddToCart(userId, productId, productSize, quantity);
@@ -122,6 +123,11 @@ namespace ECommerceApp.Controllers
         [HttpPost]
         public IActionResult UpdateStock(string productId, int quantity)
         {
+            if (string.IsNullOrEmpty(productId) || quantity <= 0)
+            {
+                return Json(new { success = false, message = "Invalid stock update request." });
+            }
+
             try
             {
                 var product = _productRepository.GetProductById(productId);
@@ -151,22 +157,18 @@ namespace ECommerceApp.Controllers
         {
             try
             {
-                // Son 10 gün içinde eklenen ürünleri al
-                var newArrivals = _productService.GetNewArrivals(10); // 10 gün varsayılan olarak ayarlandı
+                var newArrivals = _productService.GetNewArrivals(10);
 
                 if (newArrivals == null || !newArrivals.Any())
                 {
-                    // Eğer ürün yoksa bilgilendirici bir mesaj döndür
                     ViewBag.Message = "No new arrivals in the last 10 days.";
                     return View("Products", new List<ProductDetail>());
                 }
 
-                // Yeni ürünleri Products view'e gönder
                 return View("Products", newArrivals);
             }
             catch (Exception ex)
             {
-                // Hata durumunda loglama ve bilgilendirme
                 Console.WriteLine($"Error fetching new arrivals: {ex.Message}");
                 ViewBag.ErrorMessage = "An error occurred while fetching new arrivals.";
                 return View("Products", new List<ProductDetail>());
@@ -176,10 +178,8 @@ namespace ECommerceApp.Controllers
         [HttpGet]
         public IActionResult Bestseller()
         {
-            // Tüm sepetleri getir
             var allCarts = _cartService.GetAllCarts();
 
-            // Ürünlerin satış miktarını hesapla
             var bestsellers = allCarts
                 .SelectMany(cart => cart.Items)
                 .GroupBy(item => item.ProductId)
@@ -189,23 +189,14 @@ namespace ECommerceApp.Controllers
                     TotalQuantity = group.Sum(item => item.Quantity)
                 })
                 .OrderByDescending(x => x.TotalQuantity)
-                .Take(10) // En çok satan ilk 10 ürünü getir
+                .Take(10)
                 .ToList();
 
-            // Ürün detaylarını getir
             var bestsellerProducts = bestsellers
                 .Select(b => _productService.GetProductById(b.ProductId))
                 .ToList();
 
-            return View("Products", bestsellerProducts); // Products.cshtml view'ini kullan
+            return View("Products", bestsellerProducts);
         }
-
-
-
-
     }
-
-
-
 }
-
