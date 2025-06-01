@@ -1,4 +1,4 @@
-﻿using ECommerceApp.Models;
+using ECommerceApp.Models;
 using ECommerceApp.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
@@ -35,15 +35,15 @@ namespace ECommerceApp.Controllers
             }
 
             var subtotal = cart.Items.Sum(item => item.ProductPrice * item.Quantity);
-            var grandTotal = subtotal + 7.5m; 
+            var grandTotal = subtotal + 7.5m;
 
             var paymentViewModel = new PaymentViewModel
             {
                 FullName = HttpContext.User.FindFirst("FullName")?.Value,
                 CartItems = cart.Items,
                 Subtotal = subtotal,
-                ShippingCost = 7.5m, 
-                GrandTotal = grandTotal 
+                ShippingCost = 7.5m,
+                GrandTotal = grandTotal
             };
 
             return View(paymentViewModel);
@@ -79,6 +79,11 @@ namespace ECommerceApp.Controllers
         [HttpPost]
         public IActionResult ProcessPayment(PaymentViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return View("Index", model);
+            }
+
             var userId = HttpContext.User.FindFirst("UserId")?.Value;
 
             if (string.IsNullOrEmpty(userId))
@@ -88,7 +93,6 @@ namespace ECommerceApp.Controllers
 
             try
             {
-                // Kullanıcının sepetini al
                 var cart = _cartService.GetCartByUserIdWithDetails(userId);
 
                 if (cart == null || !cart.Items.Any())
@@ -97,11 +101,9 @@ namespace ECommerceApp.Controllers
                     return View("Index", model);
                 }
 
-                // Toplamları hesapla
                 var subtotal = cart.Items.Sum(item => item.ProductPrice * item.Quantity);
                 var grandTotal = subtotal + model.ShippingCost;
 
-                // Ödeme işlemini tamamla
                 _paymentService.CompletePayment(userId, new PaymentViewModel
                 {
                     Subtotal = subtotal,
@@ -116,7 +118,6 @@ namespace ECommerceApp.Controllers
                     CVV = model.CVV
                 });
 
-                // Sipariş onay sayfasına yönlendir
                 return RedirectToAction("OrderConfirmation", "Checkout");
             }
             catch (Exception ex)
@@ -125,7 +126,5 @@ namespace ECommerceApp.Controllers
                 return View("Index", model);
             }
         }
-
-
     }
 }
