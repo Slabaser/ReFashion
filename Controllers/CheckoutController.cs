@@ -1,4 +1,4 @@
-﻿using ECommerceApp.Models;
+using ECommerceApp.Models;
 using ECommerceApp.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
@@ -22,31 +22,39 @@ namespace ECommerceApp.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var userId = HttpContext.User.FindFirst("UserId")?.Value;
-
-            if (string.IsNullOrEmpty(userId))
+            try
             {
-                return RedirectToAction("Login", "Account");
+                var userId = HttpContext.User.FindFirst("UserId")?.Value;
+
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
+                var cart = _cartService.GetCartByUserIdWithDetails(userId);
+
+                if (cart == null || cart.Items == null || !cart.Items.Any())
+                {
+                    return RedirectToAction("Index", "Cart");
+                }
+
+                var subtotal = cart.Items.Sum(item => item.ProductPrice * item.Quantity);
+
+                var model = new CheckoutViewModel
+                {
+                    Subtotal = subtotal,
+                    Discount = 0,
+                    GrandTotal = subtotal + 7.5m,
+                    ShippingMethod = "Standard Shipping"
+                };
+
+                return View(model);
             }
-
-            var cart = _cartService.GetCartByUserIdWithDetails(userId);
-
-            if (cart == null || cart.Items == null || !cart.Items.Any())
+            catch (Exception ex)
             {
-                return RedirectToAction("Index", "Cart");
+                ModelState.AddModelError("", "An error occurred while preparing checkout: " + ex.Message);
+                return View(new CheckoutViewModel());
             }
-
-            var subtotal = cart.Items.Sum(item => item.ProductPrice * item.Quantity);
-
-            var model = new CheckoutViewModel
-            {
-                Subtotal = subtotal,
-                Discount = 0, // Varsayılan olarak sıfır
-                GrandTotal = subtotal + 7.5m, // Varsayılan kargo maliyeti
-                ShippingMethod = "Standard Shipping"
-            };
-
-            return View(model);
         }
 
         [HttpPost]
@@ -66,13 +74,8 @@ namespace ECommerceApp.Controllers
 
             try
             {
-                // Siparişi işleyin ve adres ile kargo bilgilerini kaydedin
                 _checkoutService.ProcessOrder(userId, model);
-
-                // Sipariş verilerini geçici depolamaya ekle
                 TempData["CheckoutData"] = Newtonsoft.Json.JsonConvert.SerializeObject(model);
-
-                // Kullanıcıyı ödeme sayfasına yönlendir
                 return RedirectToAction("Index", "Payment");
             }
             catch (Exception ex)
@@ -82,35 +85,40 @@ namespace ECommerceApp.Controllers
             }
         }
 
-
-
-
         [HttpGet]
         public IActionResult OrderConfirmation()
         {
-            var userId = HttpContext.User.FindFirst("UserId")?.Value;
-
-            if (string.IsNullOrEmpty(userId))
+            try
             {
-                return RedirectToAction("Login", "Account");
+                var userId = HttpContext.User.FindFirst("UserId")?.Value;
+
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
+                var order = _checkoutService.GetLastOrder(userId);
+
+                if (order == null)
+                {
+                    return RedirectToAction("Index", "Cart");
+                }
+
+                var model = new ConfirmationViewModel
+                {
+                    OrderId = order.Id,
+                    Items = order.Items,
+                    TotalAmount = order.TotalAmount,
+                    OrderDate = order.OrderDate
+                };
+
+                return View(model);
             }
-
-            var order = _checkoutService.GetLastOrder(userId);
-
-            if (order == null)
+            catch (Exception ex)
             {
+                ModelState.AddModelError("", "An error occurred while fetching order confirmation: " + ex.Message);
                 return RedirectToAction("Index", "Cart");
             }
-            var model = new ConfirmationViewModel
-            {
-                OrderId = order.Id,
-                Items = order.Items,
-                TotalAmount = order.TotalAmount,
-                OrderDate = order.OrderDate,
-
-            };
-
-            return View(model);
         }
     }
 }
